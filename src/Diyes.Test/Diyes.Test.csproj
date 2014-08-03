@@ -56,7 +56,7 @@
       <Project>{566B9216-F8EB-4218-8892-1499090F2A1C}</Project>
       <Name>AppendOnlyStore</Name>
     </ProjectReference>
-    <ProjectReference Include="..\EventStore\Diyes.csproj">
+    <ProjectReference Include="..\Diyes\Diyes.csproj">
       <Project>{25328865-529D-4ECE-AAE2-427919340037}</Project>
       <Name>Diyes</Name>
     </ProjectReference>
