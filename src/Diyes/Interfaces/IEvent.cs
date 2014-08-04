@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Diyes.Interfaces
+namespace Diyes.Store.Interfaces
 {
     public interface IEvent
     {
-        Guid AggregateId { get; }
+        IIdentity AggregateId { get; }
     }
 }
 

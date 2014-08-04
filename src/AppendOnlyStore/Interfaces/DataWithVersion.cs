@@ -1,4 +1,4 @@
-﻿namespace AppendOnlyStore.Interfaces
+﻿namespace Diyes.AppendOnlyStore.Interfaces
 {
     public class DataWithVersion
     {

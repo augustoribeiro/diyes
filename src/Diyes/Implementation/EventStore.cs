@@ -2,10 +2,10 @@
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
-using AppendOnlyStore.Interfaces;
-using Diyes.Interfaces;
+using Diyes.AppendOnlyStore.Interfaces;
+using Diyes.Store.Interfaces;
 
-namespace Diyes.Implementation
+namespace Diyes.Store.Implementation
 {
     public class EventStore : IEventStore
     {

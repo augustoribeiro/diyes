@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Diyes.Interfaces
+namespace Diyes.Store.Interfaces
 {
     public class EventStoreConcurrencyException : Exception
     {

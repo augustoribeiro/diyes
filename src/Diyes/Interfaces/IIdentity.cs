@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
-namespace Diyes.Interfaces
+namespace Diyes.Store.Interfaces
 {
-    public interface IIdentity
+  
+    public interface IIdentity 
     {
         Guid Id { get; }
     }

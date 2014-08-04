@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diyes", "Diyes\Diyes.csproj", "{25328865-529D-4ECE-AAE2-427919340037}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diyes.Store", "Diyes\Diyes.Store.csproj", "{25328865-529D-4ECE-AAE2-427919340037}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diyes.Test", "Diyes.Test\Diyes.Test.csproj", "{29C724AC-3CBA-4303-8A42-3ACAD0EBE708}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppendOnlyStore", "AppendOnlyStore\AppendOnlyStore.csproj", "{566B9216-F8EB-4218-8892-1499090F2A1C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diyes.AppendOnlyStore", "AppendOnlyStore\Diyes.AppendOnlyStore.csproj", "{566B9216-F8EB-4218-8892-1499090F2A1C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace AppendOnlyStore.Interfaces
+namespace Diyes.AppendOnlyStore.Interfaces
 {
     public interface IAppendOnlyStore : IDisposable
     {

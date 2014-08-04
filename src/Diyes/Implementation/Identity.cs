@@ -1,18 +1,39 @@
 ﻿using System;
-using Diyes.Interfaces;
+using Diyes.Store.Interfaces;
 
-namespace Diyes.Implementation
+namespace Diyes.Store.Implementation
 {
+    [Serializable]
     public class Identity : IIdentity
     {
+        public Guid Id { get; private set; }
+
         public Identity(Guid id)
         {
-            if(id == Guid.Empty)
+            if (id == Guid.Empty)
                 throw new ArgumentException(string.Format("Cannot create an identity with {0}", Guid.Empty));
 
             Id = id;
         }
 
-        public Guid Id { get; private set; }
+        protected bool Equals(Identity other)
+        {
+            return Id.Equals(other.Id);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((Identity) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
+        }
+
+      
     }
 }

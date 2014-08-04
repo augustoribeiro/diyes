@@ -47,18 +47,19 @@
   <ItemGroup>
     <Compile Include="InMemoryEventStoreTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AppendOnlyStore\AppendOnlyStore.csproj">
+    <ProjectReference Include="..\AppendOnlyStore\Diyes.AppendOnlyStore.csproj">
       <Project>{566B9216-F8EB-4218-8892-1499090F2A1C}</Project>
-      <Name>AppendOnlyStore</Name>
+      <Name>Diyes.AppendOnlyStore</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Diyes\Diyes.csproj">
+    <ProjectReference Include="..\Diyes\Diyes.Store.csproj">
       <Project>{25328865-529D-4ECE-AAE2-427919340037}</Project>
-      <Name>Diyes</Name>
+      <Name>Diyes.Store</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

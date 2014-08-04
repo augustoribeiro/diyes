@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AppendOnlyStore.Interfaces
+namespace Diyes.AppendOnlyStore.Interfaces
 {
     public class AppendOnlyConcurrencyException : Exception
     {

@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using AppendOnlyStore.Interfaces;
+using Diyes.AppendOnlyStore.Interfaces;
 
-namespace AppendOnlyStore.Implementations
+namespace Diyes.AppendOnlyStore.Implementations
 {
     public class InMemoryAppendOnlyStore : IAppendOnlyStore
     {
@@ -13,13 +13,20 @@ namespace AppendOnlyStore.Implementations
         {
             lock (_lock)
             {
-                var version = events.Where(e => e.Identity == name).Max(e => e.Version);
+                var version = 0;
+                var dataWithVersions = events.Where(e => e.Identity == name);
+                
+                if (dataWithVersions.Any())
+                {
+                    version = dataWithVersions.Max(e => e.Version);    
+                }
+                
                 if (version != expectedVersion)
                 {
                     throw new AppendOnlyConcurrencyException(expectedVersion);
                 }
 
-                events.Add(new DataWithVersion(name,version,data));
+                events.Add(new DataWithVersion(name,version + 1,data));
             }
         }
 

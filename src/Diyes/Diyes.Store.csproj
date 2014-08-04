@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{566B9216-F8EB-4218-8892-1499090F2A1C}</ProjectGuid>
+    <ProjectGuid>{25328865-529D-4ECE-AAE2-427919340037}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AppendOnlyStore</RootNamespace>
-    <AssemblyName>AppendOnlyStore</AssemblyName>
+    <RootNamespace>Diyes.Store</RootNamespace>
+    <AssemblyName>Diyes.Store</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,11 +39,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Implementations\InMemoryAppendOnlyStore.cs" />
-    <Compile Include="Interfaces\AppendOnlyConcurrencyException.cs" />
-    <Compile Include="Interfaces\DataWithVersion.cs" />
-    <Compile Include="Interfaces\IAppendOnlyStore.cs" />
+    <Compile Include="Implementation\EventStore.cs" />
+    <Compile Include="Interfaces\EventStoreConcurrencyException.cs" />
+    <Compile Include="Interfaces\EventStream.cs" />
+    <Compile Include="Implementation\Identity.cs" />
+    <Compile Include="Interfaces\IEvent.cs" />
+    <Compile Include="Interfaces\IEventStore.cs" />
+    <Compile Include="Interfaces\IIdentity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AppendOnlyStore\Diyes.AppendOnlyStore.csproj">
+      <Project>{566B9216-F8EB-4218-8892-1499090F2A1C}</Project>
+      <Name>Diyes.AppendOnlyStore</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
