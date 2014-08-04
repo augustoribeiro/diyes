@@ -49,7 +49,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AppendOnlyStore\Diyes.AppendOnlyStore.csproj">
+    <ProjectReference Include="..\Diyes.AppendOnlyStore\Diyes.AppendOnlyStore.csproj">
       <Project>{566B9216-F8EB-4218-8892-1499090F2A1C}</Project>
       <Name>Diyes.AppendOnlyStore</Name>
     </ProjectReference>
