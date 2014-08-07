@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Diyes.AppendOnlyStore.Implementations;
 using Diyes.Store.Implementation;
 using Diyes.Store.Interfaces;
@@ -32,7 +31,7 @@ namespace Diyes.Test
         }
 
         [Test]
-        public void ConcreteAggregateLoad_AggregateCreate_IsCreatedIsTrueAndEventIsInChanges()
+        public void ConcreteAggregateLoad_AggregateCreate_IsCreatedIsTrue()
         {
             var identity = new Identity(Guid.NewGuid());
             var concreteAggregate = _aggregateRepository.Load<ConcreteAggregate>(identity);
@@ -40,12 +39,6 @@ namespace Diyes.Test
             concreteAggregate.Create();
 
             Check.That(concreteAggregate.IsCreated).IsTrue();
-            Check.That(concreteAggregate.Changes.Count).IsEqualTo(1);
-            var e = concreteAggregate.Changes.First();
-
-            Check.That(e).IsInstanceOf<ConcreteAggregateCreated>();
-            var createdEvent = e as ConcreteAggregateCreated;
-            Check.That(createdEvent.AggregateId).IsEqualTo(identity);
         }
 
 
@@ -78,6 +71,4 @@ namespace Diyes.Test
             Check.ThatCode(() => _aggregateRepository.Save(anotherConcreteAggregate)).Throws<EventStoreConcurrencyException>();
         }
     }
-
-   
 }
