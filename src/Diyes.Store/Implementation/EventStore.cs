@@ -21,7 +21,7 @@ namespace Diyes.Store.Implementation
         {
             var id = IdentityToString(identity);
             var records = _appendOnlyStore.Read(id);
-            var stream = new EventStream();
+            var stream = new EventStream(identity);
 
             foreach (var record in records)
             {

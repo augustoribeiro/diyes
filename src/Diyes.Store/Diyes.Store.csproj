@@ -39,6 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implementation\AbstractAggregate.cs" />
+    <Compile Include="Implementation\AggregateRepository.cs" />
     <Compile Include="Implementation\EventStore.cs" />
     <Compile Include="Interfaces\EventStoreConcurrencyException.cs" />
     <Compile Include="Interfaces\EventStream.cs" />
