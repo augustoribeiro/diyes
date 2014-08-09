@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using Diyes.Store.Interfaces;
+﻿using Diyes.Store.Interfaces;
 
 namespace Diyes.Store.Implementation
 {
@@ -43,7 +40,7 @@ namespace Diyes.Store.Implementation
 
         public bool ShouldSnap(int version)
         {
-            return version%SnapshotFrequency == 0;
+            return version % SnapshotFrequency == 0;
         }
 
     }
