@@ -22,7 +22,7 @@ namespace Diyes.Test
         }
 
         [Test]
-        public void Test()
+        public void SnapshotFrequencyIsOne_SavesSnapAfterFirstSave()
         {
             var identity = new Identity(Guid.NewGuid());
             _snapper.SnapshotFrequency = 1;
@@ -34,7 +34,35 @@ namespace Diyes.Test
 
             var loadedSnapshot = _snapper.LoadSnap<ConcreteAggregate>(identity);
 
+            Check.That(loadedSnapshot).IsNotNull();
             Check.That(loadedSnapshot.IsCreated).IsTrue();
+        }
+
+        [Test]
+        public void SnapshotFrequencyIsOne_SavesSnapAfterSecondSave()
+        {
+            const int number = 42;
+            var identity = new Identity(Guid.NewGuid());
+            _snapper.SnapshotFrequency = 2;
+
+            var concreteAggregate = _aggregateRepository.Load<ConcreteAggregate>(identity);
+            concreteAggregate.Create();
+
+            _aggregateRepository.Save(concreteAggregate);
+
+            var loadedSnapshot = _snapper.LoadSnap<ConcreteAggregate>(identity);
+            Check.That(loadedSnapshot).IsNull();
+
+            concreteAggregate = _aggregateRepository.Load<ConcreteAggregate>(identity);
+            concreteAggregate.ChangeNumber(number);
+
+            _aggregateRepository.Save(concreteAggregate);
+
+
+            loadedSnapshot = _snapper.LoadSnap<ConcreteAggregate>(identity);
+            Check.That(loadedSnapshot).IsNotNull();
+            Check.That(loadedSnapshot.IsCreated).IsTrue();
+            Check.That(loadedSnapshot.Number).IsEqualTo(number);
         }
     }
 }

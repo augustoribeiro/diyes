@@ -1,6 +1,5 @@
 using System;
 using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
 using Diyes.Store.Interfaces;
 
 namespace Diyes.Store.Implementation
@@ -67,7 +66,7 @@ namespace Diyes.Store.Implementation
             var type = typeof(AggregateRepository);
             var loadMethod = type.GetMethod("Load").MakeGenericMethod(abstractAggregate.GetType());
 
-            var aggregateToSnap = (AbstractAggregate)loadMethod.Invoke(this, new[] { abstractAggregate.Id });
+            var aggregateToSnap = (AbstractAggregate)loadMethod.Invoke(this, new object[] { abstractAggregate.Id });
             _snapper.SaveSnap(aggregateToSnap);
             
         }

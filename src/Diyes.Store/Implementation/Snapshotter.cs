@@ -43,7 +43,7 @@ namespace Diyes.Store.Implementation
 
         public bool ShouldSnap(int version)
         {
-            return (version+1)%SnapshotFrequency == 0;
+            return version%SnapshotFrequency == 0;
         }
 
     }
