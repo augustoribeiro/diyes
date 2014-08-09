@@ -15,12 +15,21 @@ namespace Diyes.Test
 
         public void Create()
         {
+            if (IsCreated)
+                throw new ConcreteAggregateException("Aggregate has been previously created");
             Apply(new ConcreteAggregateCreated(Id));
         }
 
         public void When(ConcreteAggregateCreated e)
         {
             IsCreated = true;
+        }
+    }
+
+    public class ConcreteAggregateException : Exception
+    {
+        public ConcreteAggregateException(string message):base(message)
+        {
         }
     }
 

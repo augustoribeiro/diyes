@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
 using Diyes.Store.Interfaces;
 
 namespace Diyes.Store.Implementation
@@ -13,7 +14,7 @@ namespace Diyes.Store.Implementation
             _store = store;
         }
 
-        public T Load<T>(IIdentity aggregateId) where T : AbstractAggregate
+        public virtual T Load<T>(IIdentity aggregateId) where T : AbstractAggregate
         {
             var eventStream = _store.LoadEventStream(aggregateId);
             var typeT = typeof(T);
@@ -29,7 +30,7 @@ namespace Diyes.Store.Implementation
             return instance;
         }
 
-        public void Save(AbstractAggregate abstractAggregate)
+        public virtual void Save(AbstractAggregate abstractAggregate)
         {
             var aggregateId = abstractAggregate.Id;
             var version = abstractAggregate.Version;
@@ -37,6 +38,38 @@ namespace Diyes.Store.Implementation
 
             _store.AppendToStream(aggregateId,version,changes);
            
+        }
+    }
+
+    public class AggregateRepositoryWithSnapshoting : AggregateRepository
+    {  
+        private readonly ISnapper _snapper;
+
+        public AggregateRepositoryWithSnapshoting(EventStore store, ISnapper snapper) : base(store)
+        {
+            _snapper = snapper;
+        }
+
+        public override T Load<T>(IIdentity aggregateId)
+        {
+            var aggregate = _snapper.LoadSnap<T>(aggregateId);
+
+            if (aggregate != null)
+                return aggregate;
+
+            return base.Load<T>(aggregateId);
+        }
+
+        public override void Save(AbstractAggregate abstractAggregate)
+        {
+            base.Save(abstractAggregate);
+
+            var type = typeof(AggregateRepository);
+            var loadMethod = type.GetMethod("Load").MakeGenericMethod(abstractAggregate.GetType());
+
+            var aggregateToSnap = (AbstractAggregate)loadMethod.Invoke(this, new[] { abstractAggregate.Id });
+            _snapper.SaveSnap(aggregateToSnap);
+            
         }
     }
 }

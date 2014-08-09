@@ -9,6 +9,7 @@ namespace Diyes.Store.Implementation
         internal int Version { get; private set; }
         internal List<IEvent> Changes { get; private set; }
 
+
         protected AbstractAggregate(EventStream eventStream)
         {
             Id = eventStream.Id;
@@ -21,10 +22,10 @@ namespace Diyes.Store.Implementation
             }
         }
 
-        protected void Apply(IEvent e)
+        protected void Apply(IEvent @event)
         {
-            Changes.Add(e);
-            Mutate(e);
+            Changes.Add(@event);
+            Mutate(@event);
         }
 
         private void Mutate(IEvent @event)

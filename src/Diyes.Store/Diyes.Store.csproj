@@ -42,12 +42,16 @@
     <Compile Include="Implementation\AbstractAggregate.cs" />
     <Compile Include="Implementation\AggregateRepository.cs" />
     <Compile Include="Implementation\EventStore.cs" />
+    <Compile Include="Interfaces\ISnapper.cs" />
+    <Compile Include="Implementation\SnapshotStore.cs" />
+    <Compile Include="Implementation\Snapshotter.cs" />
     <Compile Include="Interfaces\EventStoreConcurrencyException.cs" />
     <Compile Include="Interfaces\EventStream.cs" />
     <Compile Include="Implementation\Identity.cs" />
     <Compile Include="Interfaces\IEvent.cs" />
     <Compile Include="Interfaces\IEventStore.cs" />
     <Compile Include="Interfaces\IIdentity.cs" />
+    <Compile Include="Interfaces\ISnapStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

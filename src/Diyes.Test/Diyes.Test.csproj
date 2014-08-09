@@ -49,6 +49,7 @@
     <Compile Include="ConcreteAggregate.cs" />
     <Compile Include="InMemoryEventStoreTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ShapshotterTest.cs" />
     <Compile Include="TestEvent.cs" />
   </ItemGroup>
   <ItemGroup>
