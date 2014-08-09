@@ -4,7 +4,13 @@ using Diyes.Store.Interfaces;
 
 namespace Diyes.Store.Implementation
 {
-    public class AggregateRepository 
+    public interface IAggregateRepository
+    {
+        T Load<T>(IIdentity aggregateId) where T : AbstractAggregate;
+        void Save(AbstractAggregate abstractAggregate);
+    }
+
+    public class AggregateRepository : IAggregateRepository
     {
         private readonly EventStore _store;
 
