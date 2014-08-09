@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Diyes.Store.Interfaces;
 
 namespace Diyes.Store.Implementation
@@ -31,6 +32,19 @@ namespace Diyes.Store.Implementation
         private void Mutate(IEvent @event)
         {
             ((dynamic) this).When((dynamic) @event);
+        }
+
+        internal void ReplayEvents(EventStream eventStream)
+        {
+            if (eventStream.Events.Any())
+            {
+                Version = eventStream.Version;
+
+                foreach (var @event in eventStream.Events)
+                {
+                    Mutate(@event);
+                }
+            }
         }
     }
  

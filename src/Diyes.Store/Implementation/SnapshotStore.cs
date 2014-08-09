@@ -17,7 +17,7 @@ namespace Diyes.Store.Implementation
 
         public void Put(AbstractAggregate strippedAggregate)
         {
-            _store.Add(strippedAggregate.Id,strippedAggregate);
+            _store[strippedAggregate.Id] = strippedAggregate;
         }
     }
 }

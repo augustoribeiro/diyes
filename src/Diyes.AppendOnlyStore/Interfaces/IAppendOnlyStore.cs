@@ -7,5 +7,6 @@ namespace Diyes.AppendOnlyStore.Interfaces
     {
         void Append(string name, byte[] data, int expectedVersion = -1);
         IEnumerable<DataWithVersion> Read(string identity);
+        IEnumerable<DataWithVersion> ReadAfterVersion(string identity, int version);
     }
 }

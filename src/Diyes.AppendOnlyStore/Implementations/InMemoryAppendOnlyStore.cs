@@ -35,6 +35,11 @@ namespace Diyes.AppendOnlyStore.Implementations
             return events.Where(e => e.Identity == identity).OrderBy(e => e.Version);
         }
 
+        public IEnumerable<DataWithVersion> ReadAfterVersion(string identity, int version)
+        {
+            return events.Where(e => e.Identity == identity).OrderBy(e => e.Version > version);
+        }
+
         public void Dispose()
         {
             _lock = null;

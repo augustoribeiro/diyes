@@ -39,7 +39,7 @@ namespace Diyes.Test
         }
 
         [Test]
-        public void SnapshotFrequencyIsOne_SavesSnapAfterSecondSave()
+        public void SnapshotFrequencyIsTwo_SavesSnapAfterSecondSave()
         {
             const int number = 42;
             var identity = new Identity(Guid.NewGuid());
@@ -63,6 +63,42 @@ namespace Diyes.Test
             Check.That(loadedSnapshot).IsNotNull();
             Check.That(loadedSnapshot.IsCreated).IsTrue();
             Check.That(loadedSnapshot.Number).IsEqualTo(number);
+        }
+
+        [Test]
+        public void SnapshotFrequencyIsTwo_SnapshotIsNotCurrent_AggregateLoaderLoadsLastVersion()
+        {
+            const int numberOne = 1;
+            const int numberTwo = 2;
+            const int numberThree = 3;
+
+            var identity = new Identity(Guid.NewGuid());
+            _snapper.SnapshotFrequency = 2;
+
+            var concreteAggregate = _aggregateRepository.Load<ConcreteAggregate>(identity);
+            concreteAggregate.Create();
+
+            _aggregateRepository.Save(concreteAggregate);
+
+            concreteAggregate = _aggregateRepository.Load<ConcreteAggregate>(identity);
+            concreteAggregate.ChangeNumber(numberOne);
+
+            _aggregateRepository.Save(concreteAggregate);
+
+            concreteAggregate = _aggregateRepository.Load<ConcreteAggregate>(identity);
+            concreteAggregate.ChangeNumber(numberTwo);
+
+            _aggregateRepository.Save(concreteAggregate);
+
+            concreteAggregate = _aggregateRepository.Load<ConcreteAggregate>(identity);
+            concreteAggregate.ChangeNumber(numberThree);
+
+            _aggregateRepository.Save(concreteAggregate);
+
+
+            concreteAggregate = _aggregateRepository.Load<ConcreteAggregate>(identity);
+
+            Check.That(concreteAggregate.Number).IsEqualTo(numberThree);
         }
     }
 }

@@ -23,6 +23,9 @@ namespace Diyes.Test
 
         public void ChangeNumber(int number)
         {
+            if(!IsCreated)
+                throw new ConcreteAggregateException("Aggregate has not been previously created");
+
             Apply(new NumberChanged(Id,number));
         }
 

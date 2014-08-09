@@ -35,7 +35,7 @@ namespace Diyes.Test
             var concreteEvent = new TestEvent(identity, random.Next(0, 1000));
             var originalVersion = 1;
 
-            Check.ThatCode(() => _store.AppendToStream(identity, originalVersion, new[] { concreteEvent })).Throws<EventStoreConcurrencyException>();
+            Check.ThatCode(() => _store.AppendToStream(identity, originalVersion, new[] { concreteEvent })).Throws<OptimisticConcurrencyException>();
         }
 
         [Test]

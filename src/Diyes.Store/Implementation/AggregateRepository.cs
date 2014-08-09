@@ -36,16 +36,17 @@ namespace Diyes.Store.Implementation
             var changes = abstractAggregate.Changes;
 
             _store.AppendToStream(aggregateId,version,changes);
-           
         }
     }
 
     public class AggregateRepositoryWithSnapshoting : AggregateRepository
-    {  
+    {
+        private readonly EventStore _store;
         private readonly ISnapper _snapper;
 
         public AggregateRepositoryWithSnapshoting(EventStore store, ISnapper snapper) : base(store)
         {
+            _store = store;
             _snapper = snapper;
         }
 
@@ -54,7 +55,13 @@ namespace Diyes.Store.Implementation
             var aggregate = _snapper.LoadSnap<T>(aggregateId);
 
             if (aggregate != null)
-                return aggregate;
+            {
+                var eventStream = _store.LoadEventStreamAfterVersion(aggregateId, aggregate.Version);
+                aggregate.ReplayEvents(eventStream);
+            }
+                
+
+
 
             return base.Load<T>(aggregateId);
         }

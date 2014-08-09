@@ -68,7 +68,7 @@ namespace Diyes.Test
 
             _aggregateRepository.Save(concreteAggregate);
 
-            Check.ThatCode(() => _aggregateRepository.Save(anotherConcreteAggregate)).Throws<EventStoreConcurrencyException>();
+            Check.ThatCode(() => _aggregateRepository.Save(anotherConcreteAggregate)).Throws<OptimisticConcurrencyException>();
         }
     }
 }

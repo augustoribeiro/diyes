@@ -32,6 +32,21 @@ namespace Diyes.Store.Implementation
             return stream;
         }
 
+        public EventStream LoadEventStreamAfterVersion(IIdentity identity, int version)
+        {
+            var id = IdentityToString(identity);
+            var records = _appendOnlyStore.ReadAfterVersion(id,version);
+            var stream = new EventStream(identity);
+
+            foreach (var record in records)
+            {
+                stream.Events.AddRange(DeserializeEvent(record.Data));
+                stream.Version = record.Version;
+            }
+
+            return stream;
+        }
+
         public void AppendToStream(IIdentity id, int originalVersion, IEnumerable<IEvent> events)
         {
             if(!events.Any())
@@ -47,7 +62,7 @@ namespace Diyes.Store.Implementation
             catch (AppendOnlyConcurrencyException e)
             {
                 var server = LoadEventStream(id);
-                throw new EventStoreConcurrencyException(server.Version, e.ExpectedVersion, id, server.Events);
+                throw new OptimisticConcurrencyException(server.Version, e.ExpectedVersion, id, server.Events);
             }
         }
 
@@ -75,5 +90,6 @@ namespace Diyes.Store.Implementation
         }
 
 
+        
     }
 }
