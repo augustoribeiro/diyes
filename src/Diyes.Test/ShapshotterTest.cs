@@ -10,7 +10,7 @@ namespace Diyes.Test
     public class ShapshotterTest
     {
         private EventStore _store;
-        private AggregateRepository _aggregateRepository;
+        private AggregateRepositoryWithSnapshoting _aggregateRepository;
         private Snapper _snapper;
 
         [SetUp]
@@ -18,7 +18,7 @@ namespace Diyes.Test
         {
             _store = new EventStore(new InMemoryAppendOnlyStore());
             _snapper = new Snapper(new SnapshotStore());
-            _aggregateRepository = new AggregateRepositoryWithSnapshoting(_store,_snapper);
+            _aggregateRepository = new AggregateRepositoryWithSnapshoting(new AggregateRepository(_store),_snapper);
         }
 
         [Test]

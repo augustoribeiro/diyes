@@ -41,7 +41,9 @@
   <ItemGroup>
     <Compile Include="Implementation\AbstractAggregate.cs" />
     <Compile Include="Implementation\AggregateRepository.cs" />
+    <Compile Include="Implementation\AggregateRepositoryWithSnapshoting.cs" />
     <Compile Include="Implementation\EventStore.cs" />
+    <Compile Include="Interfaces\IAggregateRepository.cs" />
     <Compile Include="Interfaces\ISnapper.cs" />
     <Compile Include="Implementation\SnapshotStore.cs" />
     <Compile Include="Implementation\Snapshotter.cs" />

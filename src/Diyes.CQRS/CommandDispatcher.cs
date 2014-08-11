@@ -1,4 +1,5 @@
 ﻿using Diyes.Store.Implementation;
+using Diyes.Store.Interfaces;
 
 namespace Diyes.CQRS
 {

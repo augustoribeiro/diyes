@@ -4,24 +4,27 @@ using Diyes.Store.Interfaces;
 
 namespace Diyes.Store.Implementation
 {
-    public interface IAggregateRepository
-    {
-        T Load<T>(IIdentity aggregateId) where T : AbstractAggregate;
-        void Save(AbstractAggregate abstractAggregate);
-    }
-
     public class AggregateRepository : IAggregateRepository
     {
-        private readonly EventStore _store;
+        public void Save<T>(T abstractAggregate) where T : AbstractAggregate
+        {
+            var aggregateId = abstractAggregate.Id;
+            var version = abstractAggregate.Version;
+            var changes = abstractAggregate.Changes;
+
+            Store.AppendToStream(aggregateId, version, changes);
+        }
+
+        public EventStore Store { get; private set; }
 
         public AggregateRepository(EventStore store)
         {
-            _store = store;
+            Store = store;
         }
 
         public virtual T Load<T>(IIdentity aggregateId) where T : AbstractAggregate
         {
-            var eventStream = _store.LoadEventStream(aggregateId);
+            var eventStream = Store.LoadEventStream(aggregateId);
             var typeT = typeof(T);
             var ctor = typeT.GetConstructor(
                 BindingFlags.NonPublic | BindingFlags.CreateInstance | BindingFlags.Instance,
@@ -35,53 +38,6 @@ namespace Diyes.Store.Implementation
             return instance;
         }
 
-        public virtual void Save(AbstractAggregate abstractAggregate)
-        {
-            var aggregateId = abstractAggregate.Id;
-            var version = abstractAggregate.Version;
-            var changes = abstractAggregate.Changes;
-
-            _store.AppendToStream(aggregateId,version,changes);
-        }
-    }
-
-    public class AggregateRepositoryWithSnapshoting : AggregateRepository
-    {
-        private readonly EventStore _store;
-        private readonly ISnapper _snapper;
-
-        public AggregateRepositoryWithSnapshoting(EventStore store, ISnapper snapper) : base(store)
-        {
-            _store = store;
-            _snapper = snapper;
-        }
-
-        public override T Load<T>(IIdentity aggregateId)
-        {
-            var aggregate = _snapper.LoadSnap<T>(aggregateId);
-
-            if (aggregate != null)
-            {
-                var eventStream = _store.LoadEventStreamAfterVersion(aggregateId, aggregate.Version);
-                aggregate.ReplayEvents(eventStream);
-            }
-                
-
-
-
-            return base.Load<T>(aggregateId);
-        }
-
-        public override void Save(AbstractAggregate abstractAggregate)
-        {
-            base.Save(abstractAggregate);
-
-            var type = typeof(AggregateRepository);
-            var loadMethod = type.GetMethod("Load").MakeGenericMethod(abstractAggregate.GetType());
-
-            var aggregateToSnap = (AbstractAggregate)loadMethod.Invoke(this, new object[] { abstractAggregate.Id });
-            _snapper.SaveSnap(aggregateToSnap);
-            
-        }
+        
     }
 }
