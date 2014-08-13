@@ -6,6 +6,5 @@ namespace Diyes.Store.Interfaces
     {
         T Load<T>(IIdentity aggregateId) where T : AbstractAggregate;
         void Save<T>(T abstractAggregate) where T : AbstractAggregate;
-        EventStore Store { get; }
     }
 }

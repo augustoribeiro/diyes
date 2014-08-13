@@ -1,44 +1,38 @@
-using System;
 using Diyes.Store.Interfaces;
 
 namespace Diyes.Store.Implementation
 {
-    public class AggregateRepositoryWithSnapshoting : IAggregateRepository
+    public class AggregateRepositoryWithSnapshoting : AggregateRepository
     {
-        private readonly IAggregateRepository _aggregateRepository;
+        private readonly EventStore _store;
         private readonly ISnapper _snapper;
 
-        public AggregateRepositoryWithSnapshoting(IAggregateRepository aggregateRepository, ISnapper snapper)
+        public AggregateRepositoryWithSnapshoting(EventStore store, ISnapper snapper) : base(store)
         {
-            if (aggregateRepository == null) throw new ArgumentNullException("aggregateRepository");
-
-            _aggregateRepository = aggregateRepository;
-            Store = _aggregateRepository.Store;
+            _store = store;
             _snapper = snapper;
         }
 
-        public void Save<T>(T abstractAggregate) where T : AbstractAggregate
+        public override void Save<T>(T abstractAggregate) 
         {
-            _aggregateRepository.Save(abstractAggregate);
+            base.Save(abstractAggregate);
 
-            var aggregateToSnap = _aggregateRepository.Load<T>(abstractAggregate.Id);
+            var aggregateToSnap = base.Load<T>(abstractAggregate.Id);
 
             _snapper.SaveSnap(aggregateToSnap);
         }
 
-        public EventStore Store { get; private set; }
-
-        public T Load<T>(IIdentity aggregateId) where T : AbstractAggregate
+        public override T Load<T>(IIdentity aggregateId)
         {
             var aggregate = _snapper.LoadSnap<T>(aggregateId);
 
             if (aggregate != null)
             {
-                var eventStream = Store.LoadEventStreamAfterVersion(aggregateId, aggregate.Version);
+                var eventStream = _store.LoadEventStreamAfterVersion(aggregateId, aggregate.Version);
                 aggregate.ReplayEvents(eventStream);
             }
 
-            return _aggregateRepository.Load<T>(aggregateId);
+            return base.Load<T>(aggregateId);
         }
     }
 }
