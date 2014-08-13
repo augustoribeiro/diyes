@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Diyes.AppendOnlyStore.Interfaces
 {
@@ -9,6 +10,11 @@ namespace Diyes.AppendOnlyStore.Interfaces
         public AppendOnlyConcurrencyException(int expectedVersion)
         {
             ExpectedVersion = expectedVersion;
+        }
+
+        public AppendOnlyConcurrencyException(int version, int expectedversion, string name)
+        {
+            
         }
     }
 }
