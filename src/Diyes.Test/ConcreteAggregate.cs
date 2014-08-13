@@ -47,7 +47,7 @@ namespace Diyes.Test
         }
     }
 
-    [Serializable]
+    
     public class ConcreteAggregateCreated : IEvent
     {
         public ConcreteAggregateCreated(IIdentity id)
@@ -58,7 +58,7 @@ namespace Diyes.Test
         public IIdentity AggregateId { get; private set; }
     }
 
-    [Serializable]
+    
     public class NumberChanged : IEvent
     {
         public NumberChanged(IIdentity id, int number)

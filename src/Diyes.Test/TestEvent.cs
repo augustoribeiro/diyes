@@ -3,7 +3,6 @@ using Diyes.Store.Interfaces;
 
 namespace Diyes.Test
 {
-    [Serializable]
     public class TestEvent : IEvent
     {
         public IIdentity AggregateId { get; private set; }

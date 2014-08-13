@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using Diyes.AppendOnlyStore.Interfaces;
 using Diyes.Store.Interfaces;
+using Newtonsoft.Json;
 
 namespace Diyes.Store.Implementation
 {
@@ -11,10 +12,17 @@ namespace Diyes.Store.Implementation
     {
         private readonly IAppendOnlyStore _appendOnlyStore;
         private BinaryFormatter _formatter = new BinaryFormatter();
+        private JsonSerializerSettings _settings;
 
         public EventStore(IAppendOnlyStore appendOnlyStore)
         {
             _appendOnlyStore = appendOnlyStore;
+
+             _settings = new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Objects,
+                Formatting = Formatting.Indented
+            };
         }
 
         public EventStream LoadEventStream(IIdentity identity)
@@ -37,6 +45,7 @@ namespace Diyes.Store.Implementation
             var id = IdentityToString(identity);
             var records = _appendOnlyStore.ReadAfterVersion(id,version);
             var stream = new EventStream(identity);
+
 
             foreach (var record in records)
             {
@@ -72,21 +81,14 @@ namespace Diyes.Store.Implementation
             return identity.Id.ToString();
         }
 
-        private byte[] SerializeEvent(IEvent[] e)
+        private string SerializeEvent(IEvent[] e)
         {
-            using (var mem = new MemoryStream())
-            {
-                _formatter.Serialize(mem,e);
-                return mem.ToArray();
-            }
+            return JsonConvert.SerializeObject(e, _settings);
         }
 
-        private IEvent[] DeserializeEvent(byte[] data)
+        private IEvent[] DeserializeEvent(string data)
         {
-            using (var mem = new MemoryStream(data))
-            {
-                return (IEvent[]) _formatter.Deserialize(mem);
-            }
+            return JsonConvert.DeserializeObject<IEvent[]>(data, _settings);
         }
 
 

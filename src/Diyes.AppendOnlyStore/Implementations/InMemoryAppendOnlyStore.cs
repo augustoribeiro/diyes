@@ -9,7 +9,7 @@ namespace Diyes.AppendOnlyStore.Implementations
         private List<DataWithVersion> events = new List<DataWithVersion>();
         private object _lock = new object();
 
-        public void Append(string name, byte[] data, int expectedVersion = -1)
+        public void Append(string name, string data, int expectedVersion = -1)
         {
             lock (_lock)
             {

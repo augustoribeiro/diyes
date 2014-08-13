@@ -4,9 +4,9 @@
     {
         public readonly string Identity;
         public readonly int Version;
-        public readonly byte[] Data;
+        public readonly string Data;
 
-        public DataWithVersion(string identity, int version, byte[] data)
+        public DataWithVersion(string identity, int version, string data)
         {
             Identity = identity;
             Version = version;
