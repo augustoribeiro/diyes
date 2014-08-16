@@ -3,14 +3,12 @@ using Diyes.Store.Interfaces;
 
 namespace Diyes.Test
 {
-    public class TestEvent : IEvent
+    public class TestEvent : Event
     {
-        public IIdentity AggregateId { get; private set; }
         public int Number { get; private set; }
 
-        public TestEvent(IIdentity aggregateId, int number)
+        public TestEvent(int number)
         {
-            AggregateId = aggregateId;
             Number = number;
         }
 

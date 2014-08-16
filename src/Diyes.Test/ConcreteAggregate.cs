@@ -48,7 +48,7 @@ namespace Diyes.Test
     }
 
     
-    public class ConcreteAggregateCreated : IEvent
+    public class ConcreteAggregateCreated : Event
     {
         public ConcreteAggregateCreated(IIdentity id)
         {
@@ -59,7 +59,7 @@ namespace Diyes.Test
     }
 
     
-    public class NumberChanged : IEvent
+    public class NumberChanged : Event
     {
         public NumberChanged(IIdentity id, int number)
         {

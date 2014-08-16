@@ -32,7 +32,7 @@ namespace Diyes.Test
         {
             var random = new Random();
             var identity = new Identity(Guid.NewGuid());
-            var concreteEvent = new TestEvent(identity, random.Next(0, 1000));
+            var concreteEvent = new TestEvent(random.Next(0, 1000));
             var originalVersion = 1;
 
             Check.ThatCode(() => _store.AppendToStream(identity, originalVersion, new[] { concreteEvent })).Throws<OptimisticConcurrencyException>();
@@ -43,7 +43,7 @@ namespace Diyes.Test
         {
             var random = new Random();
             var identity = new Identity(Guid.NewGuid());
-            var concreteEvent = new TestEvent(identity, random.Next(0, 1000));
+            var concreteEvent = new TestEvent(random.Next(0, 1000));
             var originalVersion = 0;
 
             _store.AppendToStream(identity, originalVersion, new[] { concreteEvent });
@@ -63,8 +63,8 @@ namespace Diyes.Test
             //Arrange
             var random = new Random();
             var identity = new Identity(Guid.NewGuid());
-            var testEvent1 = new TestEvent(identity, random.Next(0, 1000));
-            var testEvent2 = new TestEvent(identity, random.Next(0, 1000));
+            var testEvent1 = new TestEvent(random.Next(0, 1000));
+            var testEvent2 = new TestEvent(random.Next(0, 1000));
 
 
             //Act
@@ -101,8 +101,8 @@ namespace Diyes.Test
             //Arrange
             var random = new Random();
             var identity = new Identity(Guid.NewGuid());
-            var testEvent1 = new TestEvent(identity, random.Next(0, 1000));
-            var testEvent2 = new TestEvent(identity, random.Next(0, 1000));
+            var testEvent1 = new TestEvent(random.Next(0, 1000));
+            var testEvent2 = new TestEvent(random.Next(0, 1000));
 
 
             //Act
@@ -114,7 +114,7 @@ namespace Diyes.Test
             _store.AppendToStream(identity, eventStreamSession1.Version, new[] { testEvent1 });
 
             //emiting test event 1 in session 2 should fail
-            Check.ThatCode(() => _store.AppendToStream(identity, eventStreamSession2.Version, new[] {testEvent2}));
+            Check.ThatCode(() => _store.AppendToStream(identity, eventStreamSession2.Version, new[] {testEvent2})).Throws<OptimisticConcurrencyException>();
         }
     }
 }

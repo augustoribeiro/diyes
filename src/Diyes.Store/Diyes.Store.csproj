@@ -56,7 +56,7 @@
     <Compile Include="Interfaces\EventStoreConcurrencyException.cs" />
     <Compile Include="Interfaces\EventStream.cs" />
     <Compile Include="Implementation\Identity.cs" />
-    <Compile Include="Interfaces\IEvent.cs" />
+    <Compile Include="Interfaces\Event.cs" />
     <Compile Include="Interfaces\IEventStore.cs" />
     <Compile Include="Interfaces\IIdentity.cs" />
     <Compile Include="Interfaces\ISnapStore.cs" />

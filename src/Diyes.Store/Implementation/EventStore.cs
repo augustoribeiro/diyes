@@ -56,7 +56,7 @@ namespace Diyes.Store.Implementation
             return stream;
         }
 
-        public void AppendToStream(IIdentity id, int originalVersion, IEnumerable<IEvent> events)
+        public void AppendToStream(IIdentity id, int originalVersion, IEnumerable<Event> events)
         {
             if(!events.Any())
                 return;
@@ -81,14 +81,14 @@ namespace Diyes.Store.Implementation
             return identity.Id.ToString();
         }
 
-        private string SerializeEvent(IEvent[] e)
+        private string SerializeEvent(Event[] e)
         {
             return JsonConvert.SerializeObject(e, _settings);
         }
 
-        private IEvent[] DeserializeEvent(string data)
+        private Event[] DeserializeEvent(string data)
         {
-            return JsonConvert.DeserializeObject<IEvent[]>(data, _settings);
+            return JsonConvert.DeserializeObject<Event[]>(data, _settings);
         }
 
 

@@ -6,7 +6,7 @@ namespace Diyes.Store.Interfaces
     {
         public IIdentity Id { get; private set; }
         public int Version;
-        public List<IEvent> Events = new List<IEvent>();
+        public List<Event> Events = new List<Event>();
 
         public EventStream(IIdentity id)
         {
