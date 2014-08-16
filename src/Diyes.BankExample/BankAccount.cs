@@ -4,11 +4,14 @@ using Diyes.Store.Interfaces;
 
 namespace Diyes.BankExample
 {
-    public class BankAccount : AbstractAggregate
+    public class Account : AbstractAggregate
     {
-        protected BankAccount(EventStream eventStream) : base(eventStream)
+        protected Account(EventStream eventStream) : base(eventStream)
         {
         }
+
+        public int Balance { get; private set; }
+        public bool IsOpen { get; private set; }
 
         public void Open()
         {
@@ -17,25 +20,81 @@ namespace Diyes.BankExample
                 throw new BankAccountException("This account was already open");
             }
 
-            Apply(new AccountOpened(Id));
+            Apply(new AccountOpened());
         }
 
-        public bool IsOpen { get; private set; }
+        public void When(AccountOpened e)
+        {
+            IsOpen = true;
+            Balance = 0;
+        }
+
+        public void Deposit(int value)
+        {
+            IsOpenGuard();
+
+            Apply(new DepositMade(value));
+        }
+
+        private void IsOpenGuard()
+        {
+            if (!IsOpen)
+            {
+                throw new BankAccountException("Trying to deposit money in an unexisting account");
+            }
+        }
+
+        public void When(DepositMade e)
+        {
+            Balance = Balance + e.Value;
+        }
+
+        public void Withdraw(int value)
+        {
+            IsOpenGuard();
+
+            if (value > Balance)
+            {
+                throw new BankAccountException("Trying to withdraw more money than what is available");
+            }
+
+            Apply(new WithdrawalMade(value));
+        }
+
+        public void When(WithdrawalMade e)
+        {
+            Balance = Balance - e.Value;
+        }
+    }
+
+    public class WithdrawalMade : Event
+    {
+        public readonly int Value;
+
+        public WithdrawalMade(int value)
+        {
+            Value = value;
+        }
+    }
+
+    public class DepositMade : Event
+    {
+        public readonly int Value;
+
+        public DepositMade(int value)
+        {
+            Value = value;
+        }
     }
 
     public class AccountOpened : Event
     {
-        public AccountOpened(IIdentity id)
-        {
-            AggregateId = id;
-        }
-
-        public IIdentity AggregateId { get; private set; }
+        
     }
 
     public class BankAccountException : Exception
     {
-        public BankAccountException(string thisAccountWasAlreadyOpen)
+        public BankAccountException(string message) : base(message)
         {
             
         }
