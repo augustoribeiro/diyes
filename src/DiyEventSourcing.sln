@@ -18,9 +18,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{BBE38E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diyes.CQRS", "Diyes.CQRS\Diyes.CQRS.csproj", "{45FE1464-CBC9-4518-B27C-5EC4019073EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diyes.MsSqlAppendStore", "Diyes.Sql\Diyes.MsSqlAppendStore.csproj", "{AB4F51B5-D3DF-4F8F-8A12-95044A2CC716}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diyes.MsSqlAppendOnlyStore", "Diyes.MsSqlAppendStore\Diyes.MsSqlAppendStore.csproj", "{AB4F51B5-D3DF-4F8F-8A12-95044A2CC716}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diyes.MsSqlAppendStore.Test", "sqltest\Diyes.MsSqlAppendStore.Test.csproj", "{ED464512-7D64-4799-A580-1C88F0EEA08D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diyes.MsSqlAppendOnlyStore.Test", "Diyes.MsSqlAppendStore.Test\Diyes.MsSqlAppendStore.Test.csproj", "{ED464512-7D64-4799-A580-1C88F0EEA08D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diyes.BankExample", "Diyes.BankExample\Diyes.BankExample.csproj", "{C3998EB9-0C3B-4CFD-9F92-B47989B77308}"
 EndProject
