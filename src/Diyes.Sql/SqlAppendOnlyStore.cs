@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using Dapper;
@@ -26,27 +26,28 @@ namespace Diyes.Sql
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                var transaction = connection.BeginTransaction();
+              
+                var queryVersion = string.Format(@"select Coalesce(Max(Version),0) from Events where [Identity] = '{0}'", name);
+                var version = connection.Query<int>(queryVersion).First();
 
-                var queryVersion = string.Format(@"select Max(Version) from Events where [Identity] = '{0}'",name);
-                var possibleVersion = connection.Query<int?>(queryVersion,null,transaction).FirstOrDefault();
-
-                var version = possibleVersion.HasValue ? possibleVersion.Value : 0;
-
-                if (expectedVersion != -1)
+                if (expectedVersion != -1 && version != expectedVersion)
                 {
-                    if (version != expectedVersion)
-                    {
-                        throw new AppendOnlyConcurrencyException(version,expectedVersion,name);
-                    }
+                    throw new AppendOnlyConcurrencyException(version,expectedVersion,name);
                 }
 
-                var insertQuery = string.Format(@"insert into Events ([Identity],Data,Version) Values('{0}','{1}',{2})",
-                    name, data, version+1);
+                var insertQuery = string.Format(@"insert into Events ([Identity],Version,Data) Values('{0}',{1},'{2}')",
+                    name, version + 1, data);
 
-                connection.Query(insertQuery,null,transaction);
-                transaction.Commit();
-                connection.Close();
+                try
+                {
+                    connection.Query(insertQuery);
+                    connection.Close();  
+                }
+                catch (SqlException)
+                {
+                    connection.Close();
+                    throw new AppendOnlyConcurrencyException(expectedVersion);
+                }
             }
         }
 
