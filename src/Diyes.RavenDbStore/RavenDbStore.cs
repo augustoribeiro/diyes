@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Diyes.AppendOnlyStore.Interfaces;
+using Raven.Abstractions.Exceptions;
 using Raven.Client;
 
 namespace Diyes.RavenDbStore
@@ -20,10 +22,17 @@ namespace Diyes.RavenDbStore
             {
                 var ravenData = GetOrCreateRavenData(identity, session);
                 var version = GetVersion(expectedVersion, ravenData);
-
                 var @event = new RavenEvent(identity, data, version);
                 ravenData.Events.Add(@event);
-                session.SaveChanges();
+                
+                try
+                {
+                    session.SaveChanges();
+                }
+                catch (ConcurrencyException exception)
+                {
+                    throw new AppendOnlyConcurrencyException(version, expectedVersion, identity);
+                }
             }
         }
 
@@ -72,7 +81,23 @@ namespace Diyes.RavenDbStore
 
         public IEnumerable<IDataWithVersion> ReadAfterVersion(string identity, int version)
         {
-            throw new System.NotImplementedException();
+            IEnumerable<IDataWithVersion> events;
+            using (var session = _documentStore.OpenSession())
+            {
+                var ravenData = session.Load<RavenData>(identity);
+                if (ravenData != null)
+                {
+                    events = ravenData.Events.Where(x => x.Version > version)
+                    .OrderBy(x => x.Version)
+                    .Select(x => new RavenEvent(x.Identity, x.Data, x.Version));
+                    
+                }
+                else
+                {
+                    events = new List<RavenEvent>();
+                }
+            }
+            return events;
         }
 
         public void Dispose()
