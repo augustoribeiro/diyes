@@ -6,7 +6,7 @@ namespace Diyes.AppendOnlyStore.Interfaces
     public interface IAppendOnlyStore : IDisposable
     {
         void Append(string name, string data, int expectedVersion = -1);
-        IEnumerable<DataWithVersion> Read(string identity);
-        IEnumerable<DataWithVersion> ReadAfterVersion(string identity, int version);
+        IEnumerable<IDataWithVersion> Read(string identity);
+        IEnumerable<IDataWithVersion> ReadAfterVersion(string identity, int version);
     }
 }

@@ -25,7 +25,7 @@ namespace Diyes.RavenDbStore.Test
             {
                 RunInMemory = true,
 
-            }.RegisterListener(new NonStaleQueryListener());
+            };
 
             DocumentStore.Initialize();
             _session = new Lazy<IDocumentSession>(() => DocumentStore.OpenSession());

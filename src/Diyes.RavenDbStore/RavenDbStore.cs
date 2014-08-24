@@ -7,7 +7,7 @@ namespace Diyes.RavenDbStore
 {
     public class RavenDbStore : IAppendOnlyStore
     {
-        private IDocumentStore _documentStore;
+        private readonly IDocumentStore _documentStore;
 
         public RavenDbStore(IDocumentStore documentStore)
         {
@@ -21,28 +21,28 @@ namespace Diyes.RavenDbStore
                 var ravenData = GetOrCreateRavenData(identity, session);
                 var version = GetVersion(expectedVersion, ravenData);
 
-                var @event = new RavenEvent(data, version);
+                var @event = new RavenEvent(identity, data, version);
                 ravenData.Events.Add(@event);
                 session.SaveChanges();
             }
         }
 
-        private static int GetVersion(int expectedVersion, RavenData ravenData)
+        static int GetVersion(int expectedVersion, RavenData ravenData)
         {
             var version = 0;
             if (ravenData.Events.Any())
             {
-                version = ravenData.Events.Max(x => x.Version) + 1;
+                version = ravenData.Events.Max(x => x.Version);
             }
 
             if (version != expectedVersion)
             {
                 throw new AppendOnlyConcurrencyException(expectedVersion);
             }
-            return version;
+            return version + 1;
         }
 
-        private static RavenData GetOrCreateRavenData(string identity, IDocumentSession session)
+        static RavenData GetOrCreateRavenData(string identity, IDocumentSession session)
         {
             var ravenData = session.Load<RavenData>(identity);
 
@@ -54,12 +54,23 @@ namespace Diyes.RavenDbStore
             return ravenData;
         }
 
-        public IEnumerable<DataWithVersion> Read(string identity)
+        public IEnumerable<IDataWithVersion> Read(string identity)
         {
-            throw new System.NotImplementedException();
+            IEnumerable<IDataWithVersion> events;
+            using (var session = _documentStore.OpenSession())
+            {
+                var ravenData = session.Load<RavenData>(identity);
+                if (ravenData == null)
+                {
+                    return new List<RavenEvent>();
+                }
+
+                events = ravenData.Events.Select(x => new RavenEvent(x.Identity, x.Data, x.Version));
+            }
+            return events;
         }
 
-        public IEnumerable<DataWithVersion> ReadAfterVersion(string identity, int version)
+        public IEnumerable<IDataWithVersion> ReadAfterVersion(string identity, int version)
         {
             throw new System.NotImplementedException();
         }
@@ -82,13 +93,15 @@ namespace Diyes.RavenDbStore
         }
     }
 
-    public class RavenEvent
+    public class RavenEvent : IDataWithVersion
     {
         public string Data { get; protected set; }
+        public string Identity { get; private set; }
         public int Version { get; protected set; }
 
-        public RavenEvent(string data, int  version)
+        public RavenEvent(string identity, string data, int  version)
         {
+            Identity = identity;
             Version = version;
             Data = data;
         }

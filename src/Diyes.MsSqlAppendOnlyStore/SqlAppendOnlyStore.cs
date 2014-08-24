@@ -51,7 +51,7 @@ namespace Diyes.Sql
             }
         }
 
-        public IEnumerable<DataWithVersion> Read(string identity)
+        public IEnumerable<IDataWithVersion> Read(string identity)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -73,7 +73,7 @@ namespace Diyes.Sql
             }
         }
 
-        public IEnumerable<DataWithVersion> ReadAfterVersion(string identity, int version)
+        public IEnumerable<IDataWithVersion> ReadAfterVersion(string identity, int version)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
