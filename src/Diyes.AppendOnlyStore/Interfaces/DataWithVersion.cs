@@ -1,10 +1,10 @@
 ﻿namespace Diyes.AppendOnlyStore.Interfaces
 {
-    public class DataWithVersion
+    public class DataWithVersion : IDataWithVersion
     {
-        public string Identity;
-        public int Version;
-        public string Data;
+        public string Identity { get; private set; }
+        public int Version { get; private set; }
+        public string Data { get; private set; }
 
         protected DataWithVersion()
         {
@@ -17,5 +17,7 @@
             Version = version;
             Data = data;
         }
+
+       
     }
 }

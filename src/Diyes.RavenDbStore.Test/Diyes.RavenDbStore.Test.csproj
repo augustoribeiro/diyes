@@ -84,6 +84,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NonStaleQueryListener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RavenDbStoreTest.cs" />
     <Compile Include="RavenFixtureTest.cs" />
