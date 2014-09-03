@@ -30,12 +30,12 @@ namespace Diyes.AppendOnlyStore.Implementations
             }
         }
 
-        public IEnumerable<DataWithVersion> Read(string identity)
+        public IEnumerable<IDataWithVersion> Read(string identity)
         {
             return events.Where(e => e.Identity == identity).OrderBy(e => e.Version);
         }
 
-        public IEnumerable<DataWithVersion> ReadAfterVersion(string identity, int version)
+        public IEnumerable<IDataWithVersion> ReadAfterVersion(string identity, int version)
         {
             return events.Where(e => e.Identity == identity).OrderBy(e => e.Version > version);
         }
