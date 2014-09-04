@@ -66,7 +66,6 @@ namespace Diyes.Test
             var testEvent1 = new TestEvent(random.Next(0, 1000));
             var testEvent2 = new TestEvent(random.Next(0, 1000));
 
-
             //Act
             //initial load
             var eventStream = _store.LoadEventStream(identity);

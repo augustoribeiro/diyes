@@ -1,9 +1,8 @@
 ﻿using System;
-using Diyes.CQRS;
 using Diyes.Store.Implementation;
 using Diyes.Store.Interfaces;
 
-namespace Diyes.Test
+namespace Diyes.CQRS
 {
     public class Command<T> : ICommand<T> where T : AbstractAggregate
     {

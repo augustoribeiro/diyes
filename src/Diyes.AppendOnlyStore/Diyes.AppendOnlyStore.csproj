@@ -43,6 +43,7 @@
     <Compile Include="Interfaces\AppendOnlyConcurrencyException.cs" />
     <Compile Include="Interfaces\DataWithVersion.cs" />
     <Compile Include="Interfaces\IAppendOnlyStore.cs" />
+    <Compile Include="Interfaces\IDataWithVersion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
