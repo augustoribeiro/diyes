@@ -1,4 +1,3 @@
-using System;
 using Diyes.Store.Interfaces;
 
 namespace Diyes.Test

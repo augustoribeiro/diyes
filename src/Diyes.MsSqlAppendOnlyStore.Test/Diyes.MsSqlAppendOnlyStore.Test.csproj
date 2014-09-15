@@ -54,21 +54,17 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Diyes.AppendOnlyStore\Diyes.AppendOnlyStore.csproj">
-      <Project>{566B9216-F8EB-4218-8892-1499090F2A1C}</Project>
-      <Name>Diyes.AppendOnlyStore</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Diyes.MsSqlAppendOnlyStore\Diyes.MsSqlAppendOnlyStore.csproj">
       <Project>{AB4F51B5-D3DF-4F8F-8A12-95044A2CC716}</Project>
       <Name>Diyes.MsSqlAppendOnlyStore</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Diyes.Store\Diyes.Store.csproj">
-      <Project>{25328865-529D-4ECE-AAE2-427919340037}</Project>
-      <Name>Diyes.Store</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Diyes.Test\Diyes.Test.csproj">
       <Project>{29C724AC-3CBA-4303-8A42-3ACAD0EBE708}</Project>
       <Name>Diyes.Test</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Diyes\Diyes.csproj">
+      <Project>{DA1F9118-98D9-4D28-B1AF-873BB6BF8DE5}</Project>
+      <Name>Diyes</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

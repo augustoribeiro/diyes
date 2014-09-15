@@ -51,13 +51,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Diyes.AppendOnlyStore\Diyes.AppendOnlyStore.csproj">
-      <Project>{566B9216-F8EB-4218-8892-1499090F2A1C}</Project>
-      <Name>Diyes.AppendOnlyStore</Name>
-    </ProjectReference>
+    <Content Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ReadMe.txt" />
+    <ProjectReference Include="..\Diyes\Diyes.csproj">
+      <Project>{DA1F9118-98D9-4D28-B1AF-873BB6BF8DE5}</Project>
+      <Name>Diyes</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

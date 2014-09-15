@@ -4,6 +4,8 @@ using Diyes.Store.Implementation;
 using Diyes.Store.Interfaces;
 using NFluent;
 using NUnit.Framework;
+using Raven.Database.Server.Responders;
+using Identity = Diyes.Store.Implementation.Identity;
 
 namespace Diyes.RavenDbStore.Test
 {

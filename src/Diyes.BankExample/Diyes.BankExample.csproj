@@ -49,9 +49,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Diyes.Store\Diyes.Store.csproj">
-      <Project>{25328865-529D-4ECE-AAE2-427919340037}</Project>
-      <Name>Diyes.Store</Name>
+    <ProjectReference Include="..\Diyes\Diyes.csproj">
+      <Project>{DA1F9118-98D9-4D28-B1AF-873BB6BF8DE5}</Project>
+      <Name>Diyes</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

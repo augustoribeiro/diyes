@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
 using Diyes.AppendOnlyStore.Interfaces;
 using Diyes.Store.Interfaces;
 using Newtonsoft.Json;
@@ -11,7 +9,6 @@ namespace Diyes.Store.Implementation
     public class EventStore : IEventStore
     {
         private readonly IAppendOnlyStore _appendOnlyStore;
-        private BinaryFormatter _formatter = new BinaryFormatter();
         private JsonSerializerSettings _settings;
 
         public EventStore(IAppendOnlyStore appendOnlyStore)

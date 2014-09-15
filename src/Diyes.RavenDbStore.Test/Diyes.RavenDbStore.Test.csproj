@@ -97,21 +97,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Diyes.AppendOnlyStore\Diyes.AppendOnlyStore.csproj">
-      <Project>{566b9216-f8eb-4218-8892-1499090f2a1c}</Project>
-      <Name>Diyes.AppendOnlyStore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Diyes.CQRS\Diyes.CQRS.csproj">
-      <Project>{45fe1464-cbc9-4518-b27c-5ec4019073ec}</Project>
-      <Name>Diyes.CQRS</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Diyes.RavenDbStore\Diyes.RavenDbStore.csproj">
       <Project>{ae252db0-13b7-41ab-83b4-cc4c16f6432d}</Project>
       <Name>Diyes.RavenDbStore</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Diyes.Store\Diyes.Store.csproj">
-      <Project>{25328865-529d-4ece-aae2-427919340037}</Project>
-      <Name>Diyes.Store</Name>
+    <ProjectReference Include="..\Diyes\Diyes.csproj">
+      <Project>{DA1F9118-98D9-4D28-B1AF-873BB6BF8DE5}</Project>
+      <Name>Diyes</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
